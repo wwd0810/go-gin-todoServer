@@ -4,15 +4,18 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"todoServer/pkg/database"
 	"todoServer/pkg/setting"
 	"todoServer/routers"
 )
 
 func init() {
 	setting.Setup()
+	database.Setup()
 }
 
 func main() {
+
 	routersInit := routers.InitRouter()
 	readTimeout := setting.ServerSetting.ReadTimeout
 	writeTimeout := setting.ServerSetting.WriteTimeout
@@ -27,7 +30,7 @@ func main() {
 		MaxHeaderBytes: maxHeaderBytes,
 	}
 
-	log.Printf("[info] start http server listening %s", endPoint)
+	log.Printf("[info] server listening %s", endPoint)
 
 	server.ListenAndServe()
 }
