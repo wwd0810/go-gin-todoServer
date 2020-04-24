@@ -23,6 +23,22 @@ func GetAllUser() ([]User, error) {
 	return users, nil
 }
 
+func GetUser(userId uint) (User, error) {
+	db := database.GetDB()
+	var user User
+
+	table := "tbl_user"
+	query := db.Select(table + ".*")
+
+	if err := query.Where("id = ?", userId).First(&user).Error; err != nil {
+
+		return user, err
+	}
+
+	return user, nil
+
+}
+
 func GetUserByEmail(email string) (User, error) {
 	db := database.GetDB()
 	var user User

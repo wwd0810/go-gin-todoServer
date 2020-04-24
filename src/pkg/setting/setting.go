@@ -63,7 +63,7 @@ var cfg *ini.File
 
 func Setup() {
 	var err error
-	cfg, err = ini.Load("conf/app.ini")
+	cfg, err = ini.Load("src/conf/app.ini")
 
 	if err != nil {
 		log.Fatalf("setting.Setup, fail to parse 'conf/app.ini': %v", err)

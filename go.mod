@@ -5,6 +5,7 @@ require (
 	github.com/astaxie/beego v1.12.1
 	github.com/denisenkom/go-mssqldb v0.0.0-20191124224453-732737034ffd
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/gin-contrib/cors v1.3.1 // indirect
 	github.com/gin-gonic/gin v1.6.2
 	github.com/go-ini/ini v1.55.0
 	github.com/go-sql-driver/mysql v1.4.1

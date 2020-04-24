@@ -10,12 +10,13 @@ import (
 func CORS() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		MaxAge := 6 * time.Hour
-
+		//c.Header("Access-Control-Allow-Credentials", "false")
 		c.Header("Access-Control-Allow-Origin", "*")
-		c.Header("Access-Control-Request-Methods", "POST, OPTIONS, GET, PUT, DELETE")
-		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS")
+		c.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+		//c.Header("Access-Control-Allow-Headers", "*")
 		c.Header("Access-Control-Max-Age", strconv.Itoa(int(MaxAge)))
-		c.Header("Access-Control-Allow-Credentials", "true")
+
 		c.Next()
 	}
 }

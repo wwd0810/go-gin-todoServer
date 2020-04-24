@@ -1,28 +1,13 @@
-ARG GO_VERSION=1.11
+FROM golang:latest
 
-FROM golang:${GO_VERSION}-alpine AS builder
+WORKDIR /
 
-RUN apk update && apk add alpine-sdk git && rm -rf /var/cache/apk/*
+ENTRYPOINT mkdir -p go-gin-todoServer
 
-RUN mkdir -p /api
-WORKDIR /api
+COPY . ./go-gin-todoServer
 
-COPY go.mod .
-COPY go.sum .
-RUN go mod download
+WORKDIR /go-gin-todoServer
 
-COPY . .
-RUN go build -o ./app ./src/main.go
-
-FROM alpine:latest
-
-RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
-
-RUN mkdir -p /api
-WORKDIR /api
-COPY --from=builder /api/app .
-#COPY --from=builder /api/test.db .
+ENTRYPOINT ["go", "run", "src/main.go"]
 
 EXPOSE 8080
-
-ENTRYPOINT ["./app"]

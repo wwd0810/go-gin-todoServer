@@ -6,12 +6,20 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	models "todoServer/src/models/user"
+	"todoServer/src/pkg/util"
 )
 
 func GetAll() ([]models.User, error) {
 
 	return models.GetAllUser()
 }
+
+//func GetUser(c *gin.Context)  {
+//	userId, err := util.ParseToken(c)
+//	if err != nil {
+//
+//	}
+//}
 
 func hashAndSalt(password []byte) string {
 	hash, err := bcrypt.GenerateFromPassword(password, bcrypt.MinCost)
@@ -35,9 +43,11 @@ func GetOrCreate(c *gin.Context) error {
 	email := c.PostForm("email")
 	password := c.PostForm("password")
 	username := c.PostForm("username")
-	//log.Println(email)
+	log.Println(email)
+	log.Println(password)
+	log.Println(username)
 
-	if email != "" || password != "" || username != "" {
+	if email == "" || password == "" || username == "" {
 		return errors.New("bad requests")
 	}
 
@@ -52,15 +62,28 @@ func GetOrCreate(c *gin.Context) error {
 			} else {
 				return nil
 			}
+
 		} else {
 			return c.Error(err)
 		}
 	}
 
 	//회원이 있을 때 예외처리 바람
-	return gin.Error{
-		Err: nil,
+	return errors.New("Already Registered")
+}
+
+func GetUser(c *gin.Context) (models.User, error) {
+	userId, err := util.ParseToken(c)
+
+	log.Println(err)
+
+	user, err := models.GetUser(userId)
+
+	if err != nil {
+		return user, err
 	}
+
+	return user, nil
 }
 
 func GetByEmail(c *gin.Context) (models.User, error) {
